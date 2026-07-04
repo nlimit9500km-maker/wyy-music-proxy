@@ -6,9 +6,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// 转发请求到网易云 API
+// 网易云 API 基础地址
 const MUSIC_API = 'https://music.163.com/api';
 
+// 通用请求函数
 async function request(method, path, params = {}, cookie = '') {
     const url = `https://music.163.com${path}`;
     const headers = {
@@ -27,7 +28,7 @@ async function request(method, path, params = {}, cookie = '') {
     return response.data;
 }
 
-// 扫码登录相关
+// ----- 扫码登录 -----
 app.get('/login/qr/key', async (req, res) => {
     try {
         const data = await request('get', '/login/qr/key', { t: Date.now() });
@@ -66,6 +67,7 @@ app.get('/login/qr/check', async (req, res) => {
     }
 });
 
+// ----- 手机号登录 -----
 app.get('/login/cellphone', async (req, res) => {
     try {
         const { phone, password, captcha } = req.query;
@@ -82,6 +84,7 @@ app.get('/login/cellphone', async (req, res) => {
     }
 });
 
+// ----- 发送验证码 -----
 app.get('/captcha/sent', async (req, res) => {
     try {
         const { phone } = req.query;
@@ -92,6 +95,7 @@ app.get('/captcha/sent', async (req, res) => {
     }
 });
 
+// ----- 用户信息 -----
 app.get('/user/account', async (req, res) => {
     try {
         const { cookie } = req.query;
@@ -102,6 +106,7 @@ app.get('/user/account', async (req, res) => {
     }
 });
 
+// ----- 歌单 -----
 app.get('/user/playlist', async (req, res) => {
     try {
         const { uid, cookie } = req.query;
@@ -122,6 +127,7 @@ app.get('/playlist/track/all', async (req, res) => {
     }
 });
 
+// ----- 歌曲 URL -----
 app.get('/song/url', async (req, res) => {
     try {
         const { id, cookie } = req.query;
@@ -132,6 +138,7 @@ app.get('/song/url', async (req, res) => {
     }
 });
 
+// ----- 歌词 -----
 app.get('/lyric', async (req, res) => {
     try {
         const { id, cookie } = req.query;
@@ -142,6 +149,7 @@ app.get('/lyric', async (req, res) => {
     }
 });
 
+// ----- 健康检查 -----
 app.get('/check', (req, res) => {
     res.json({ code: 200, msg: 'ok' });
 });
