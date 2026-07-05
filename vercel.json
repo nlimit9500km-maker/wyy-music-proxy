@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/music/:path*",
+      "destination": "/api/music/[...path]"
+    },
+    {
+      "source": "/api/:path*",
+      "destination": "/api"
+    }
+  ]
+}
